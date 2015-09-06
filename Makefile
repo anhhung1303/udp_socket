@@ -1,13 +1,14 @@
 CC = g++
 CFLAGS = -c
 DEPS = DataStruct.h socketA.h socketB.h Message.h
-all: socket
 
-socket: main.o socketA.o socketB.o Message.o  handle.o
-	$(CC) main.o socketA.o socketB.o Message.o handle.o -o socket
+all: socketA socketB
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
+socketA: socketA.o  Message.o
+	$(CC) socketA.o  Message.o -o socketA
+
+socketB: socketB.o Message.o
+	$(CC) socketB.o Message.o -o socketB
 
 socketA.o: socketA.cpp
 	$(CC) $(CFLAGS) socketA.cpp
@@ -18,8 +19,5 @@ socketB.o: socketB.cpp
 Message.o: Message.cpp
 	$(CC) $(CFLAGS) Message.cpp
 
-handle.o: handle.cpp
-	$(CC) $(CFLAGS) handle.cpp
-
 clean:
-	rm -rf *o socket
+	rm -rf *o socketA socketB

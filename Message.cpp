@@ -104,7 +104,6 @@ int Message::getInt() {
 		((getByte() & 255) << 8) +
 		((getByte() & 255) << 0);
 }
-
 long long Message::getLong(){
 	return ((long long)(getByte() & 255) << 56) +
 		((long long)(getByte() & 255) << 48) +
