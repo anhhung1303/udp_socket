@@ -1,0 +1,65 @@
+#################################################################
+		#This is file for main trainning C project. 
+		# Warning: Do not edit or remove anything
+		# Note: character#anything for COMMENT, do not read them
+		# Input data for project here!
+#################################################################
+##################################################################
+#TITLE:	INDEX	NAME		DATE 		ID		AGE
+	0	Nguyen_Van_Nam	14/02/1990	165314		26
+	1	Nguyen_Van_Sau	14/03/1990	165312		26
+	2	Nguyen_Van_Bay	14/03/1991	165311		25
+	3	Nguyen_Van_Tam	14/03/1992	165310		24
+	4	Nguyen_Van_Chin	14/03/1993	165300		23
+	5	Nguyen_Van_Muoi	14/04/1994	165303		22
+	6	Nguyen_Van_Hai	14/03/1990	165319		26
+	7	Nguyen_Van_Ba	14/01/1990	165318		26
+	8	Hoang_Tuan_Anh	22/01/1980	123456		36
+	9	Pham_Minh_Duc	20/01/1983	123455		33
+##################################################################
+##################################################################
+# ------------REQUIREMENT------------------
+# ===========A>Source code directory, source code use VTCORE CODING CONVENTION:
+#	<Email>_TrainingC_Proj
+#		training
+#			+ include
+#				io.h		//For read/write file header
+#				menu.h		//For process data from menu
+#			+ src
+#				io.c
+#				menu.c
+#				main.c		//Consist of main function 
+# ==========B>Using LINK-LIST data structure to store
+# ==========C>Create a menu like below:	
+#	Welcome to main project
+#1.Show all students
+#2.Sort list by ID and show all
+#3.Filter students that was born in 1990
+#4.Write to output.txt file result in 3. choice
+#Enter your choice: 1
+# Example: Output when press 1
+#Student 1:
+#    Name: Nguyen Van Nam 
+#    Date: 14/02/1990
+#    ID: 165314
+#    AGE: 26
+#Student 2:
+#   Name: Nguyen Van Sau
+#    Date: 14/03/1990
+#    ID: 165312
+#    AGE: 26
+# etc..........................
+# Note: OUTPUT file when press 4 as INPUT file:
+##################################################################
+#TITLE:	INDEX	NAME			DATE 		ID			AGE
+#		0		Nguyen Van Nam	14/02/1990	165314		26
+#		1		Nguyen Van Sau	14/03/1990	165312		26
+#		2		Nguyen Van Bay	14/03/1991	165311		25
+#		3		Nguyen Van Tam	14/03/1992	165310		24
+#		4		Nguyen Van Chin	14/03/1993	165300		23
+#		5		Nguyen Van Muoi	14/04/1994	165303		22
+#		6		Nguyen Van Hai	14/03/1990	165319		26
+#		7		Nguyen Van Ba	14/01/1990	165318		26
+#		8		Hoang Tuan Anh	22/01/1980	123456		36
+#		9		Pham Minh Duc	20/01/1983	123455		33
+##################################################################

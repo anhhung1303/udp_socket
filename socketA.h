@@ -11,20 +11,25 @@
 #include <netdb.h> 
 
 using namespace std;
-
 class SocketA{
 private:
-	int sockfd, portno, n;
+	int sockfd, sock_recv, portno, n;
 	struct sockaddr_in serv_addr;
 	struct hostent *server;
 
 public:
 	SocketA(){};
 	~SocketA(){};
-    int start(string ipAdr, int portno);
+	int start(string ipAdr, int portno);
 	void stop();
 	void error(const char *msg);
 	Message* ABStudentInfoReq(StrABStudentInfoReq data);
+	// Message* ABShowAllReq(StrABStudentInfoReq data);
+	// Message* ABBorn1990Req(StrABStudentInfoReq data);
+	// Message* ABSortIDReq(StrABStudentInfoReq data);
+	// Message* ABInsertNewReq(StrABStudentInfoReq data);
 	StrABStudentInfoReq getData();
+	void initRecv(int portno);
+	void handleRespond();
 };
 #endif // _socketA_h_

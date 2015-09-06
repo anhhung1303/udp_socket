@@ -12,8 +12,8 @@
 
 class SocketB{
 public:
-	int sockfd, newsockfd;
-	char buffer[256];
+	int sockfd, sock_rep;
+	char buffer[PACKAGE_MAX_LEN];
 	struct sockaddr_in serv_addr, cli_addr;
 	int sizeAddr;
 
@@ -22,5 +22,6 @@ public:
     int start(int portno);
 	void error(const char *msg);
 	StrABStudentInfoReq* ABStudentInfoReq(Message* data);
+	Message* handleABStudentInfoReq(Message* msg);
 };
 #endif // _socketB_h_
