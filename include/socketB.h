@@ -4,6 +4,7 @@
 #include <string>
 #include "DataStruct.h"
 #include "Message.h"
+#include "ListStudent.h"
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -16,8 +17,9 @@ public:
 	char buffer[PACKAGE_MAX_LEN];
 	struct sockaddr_in serv_addr, cli_addr;
 	int sizeAddr;
+	ListStudent* listStudent;
 
-	SocketB(){};
+	SocketB();
 	~SocketB(){};
     int start(int portno);
 	void error(const char *msg);

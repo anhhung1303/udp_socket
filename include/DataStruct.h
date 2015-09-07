@@ -9,6 +9,7 @@ typedef struct _StrStudentInfo{
 	char date[16];
 	unsigned int id;
 	unsigned int age;
+	_StrStudentInfo* next;
 } StrStudentInfo;
 
 #define A_B_STUDENT_INFO_REQ_SIG 0

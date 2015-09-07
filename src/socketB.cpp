@@ -1,4 +1,5 @@
 #include "../include/socketB.h"
+#include "../include/ListStudent.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -9,6 +10,10 @@ using namespace std;
 void SocketB::error(const char *msg){
     cout << msg <<"\n";
     //exit(1);
+}
+
+SocketB::SocketB(){
+	listStudent = new ListStudent();
 }
 
 int SocketB::start(int portno){
@@ -66,16 +71,33 @@ int SocketB::start(int portno){
 
 StrABStudentInfoReq* SocketB::ABStudentInfoReq(Message* msg){
 	int n = msg->getInt();
-	cout <<""<< n <<"\n";
+	//cout <<""<< n <<"\n";
+	unsigned int index;
+    string name;
+    string date;
+    unsigned int id;
+    unsigned int age;
+
 	for (int i = 0; i < n; i++){
-		cout <<msg->getInt();
-		cout << "\t\t" << msg->getString().c_str();
-		cout << "\t\t" << msg->getString().c_str();
-		cout << "\t\t" << msg->getInt()<< " " << msg->getPosition();
-		cout << "\t\t" << msg->getInt()<< " " << msg->getPosition();
-		cout << "\n";
-	}
-	return NULL;
+		index = msg -> getInt();
+		name = msg -> getString().c_str();
+		date = msg -> getString().c_str();
+		id = msg -> getInt();
+		age = msg -> getInt();
+
+		StrStudentInfo* student = new StrStudentInfo();
+        student->index = index;
+        copy(name.begin(), name.end(), student->name);
+        student -> name[name.size()] = '\0';
+        copy(date.begin(), date.end(), student->date);
+        student->date[date.size()] = '\0';
+        student->id = id;
+        student->age = age;
+
+        listStudent -> addStudent(student);
+    }
+    // listStudent->printStudent();
+    return NULL;
 }
 
 Message* SocketB::handleABStudentInfoReq(Message* msg){
