@@ -61,11 +61,11 @@ int SocketB::start(int portno){
 				msg1 = handleABShowAllReq();
 				break;
 			}
-			// case A_B_BORN_1990_REQ_SIG: {
-			// 	cout << "A_B_BORN_1990_REQ_SIG" << endl;
-			// 	msg1 = handleABBorn1990Req();
-			// 	break;
-			// }
+			case A_B_BORN_1990_REQ_SIG: {
+				cout << "A_B_BORN_1990_REQ_SIG" << endl;
+				msg1 = handleABBorn1990Req();
+				break;
+			}
 		};
 
 		if(msg1){
@@ -137,9 +137,22 @@ Message* SocketB::handleABShowAllReq(){
 	return msg;
 }
 
-// Message* SocketB::handleABBorn1990Req(){
-	
-// }
+Message* SocketB::handleABBorn1990Req(){
+	Message* msg = new Message(PACKAGE_MAX_LEN);
+	ListStudent* filterered1990List = listStudent->filterStudent();
+	StrStudentInfo* curr = filterered1990List->getFirst();
+	msg->putInt(B_A_BORN_1990_RES_SIG);
+	msg->putInt(filterered1990List->getNumStudents());
+	for(int i = 0; i < filterered1990List->getNumStudents(); i++) {
+		msg->putInt(curr->index);
+		msg->putString(curr->name);
+		msg->putString(curr->date);
+		msg->putInt(curr->id);
+		msg->putInt(curr->age);
+		curr = curr->next;
+	}
+	return msg;
+}
 
 int main(int argc, char const *argv[]){
 	(new SocketB())->start(8080);
