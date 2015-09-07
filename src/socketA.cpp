@@ -66,12 +66,12 @@ int SocketA::start(string ipAdr, int portno){
 				if (n < 0) error("Error send");
 				break;
 			}
-			// case 3: {
-			// 	Message* msg = ABBorn1990Req();
-			// 	n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-			// 	if (n < 0) error("Error send");
-			// 	break;
-			// }
+			case 3: {
+				Message* msg = ABBorn1990Req();
+				n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+				if (n < 0) error("Error send");
+				break;
+			}
 			// case 4: {
 			// 	Message* msg = ABSortIDReq();
 			// 	n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
@@ -114,11 +114,11 @@ Message* SocketA::ABShowAllReq(){
 	return msg;
 }
 
-// Message* SocketA::ABBorn1990Req(){
-// 	Message* msg = new Message(PACKAGE_MAX_LEN);
-// 	msg->putInt(A_B_BORN_1990_REQ_SIG);
-// 	return msg;
-// }
+Message* SocketA::ABBorn1990Req(){
+	Message* msg = new Message(PACKAGE_MAX_LEN);
+	msg->putInt(A_B_BORN_1990_REQ_SIG);
+	return msg;
+}
 
 StrABStudentInfoReq SocketA::getData(){
 	StrABStudentInfoReq data;
@@ -194,6 +194,25 @@ void SocketA::handleRespond(){
 		    	age = msg->getInt();
 		    	cout << "\t" << index << "\t" << name << "\t\t" << date << "\t" << id << "\t" << age << endl;
 		    }
+		    break;
+		}
+		case B_A_BORN_1990_RES_SIG: {
+			cout << "TITLE:\t" << "INDEX\t" << "NAME\t\t\t" << "DATE\t\t" << "ID\t" << "AGE" << endl;
+			int n = msg->getInt();
+			unsigned int index;
+		    string name;
+		    string date;
+		    unsigned int id;
+		    unsigned int age;
+		    for(int i = 0; i < n; i++){
+		    	index = msg->getInt();
+		    	name = msg->getString().c_str();
+		    	date = msg->getString().c_str();
+		    	id = msg->getInt();
+		    	age = msg->getInt();
+		    	cout << "\t" << index << "\t" << name << "\t\t" << date << "\t" << id << "\t" << age << endl;
+		    }
+		    break;
 		}
 	};
 }
