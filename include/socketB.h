@@ -27,5 +27,6 @@ public:
 	Message* handleABStudentInfoReq(Message* msg);
 	Message* handleABShowAllReq();
 	Message* handleABBorn1990Req();
+	Message* handleABSortIDReq();
 };
 #endif // _socketB_h_

@@ -26,7 +26,7 @@ public:
 	Message* ABStudentInfoReq(StrABStudentInfoReq data);
 	Message* ABShowAllReq();
 	Message* ABBorn1990Req();
-	// Message* ABSortIDReq(StrABStudentInfoReq data);
+	Message* ABSortIDReq();
 	// Message* ABInsertNewReq(StrABStudentInfoReq data);
 	StrABStudentInfoReq getData();
 	Message* handleBAShowAllRes();
