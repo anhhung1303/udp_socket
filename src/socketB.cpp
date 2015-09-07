@@ -66,6 +66,11 @@ int SocketB::start(int portno){
 				msg1 = handleABBorn1990Req();
 				break;
 			}
+			case A_B_SORT_ID_REQ_SIG: {
+				cout << "A_B_SORT_ID_REQ_SIG" << endl;
+				msg1 = handleABSortIDReq();
+				break;
+			}
 		};
 
 		if(msg1){
@@ -144,6 +149,23 @@ Message* SocketB::handleABBorn1990Req(){
 	msg->putInt(B_A_BORN_1990_RES_SIG);
 	msg->putInt(filterered1990List->getNumStudents());
 	for(int i = 0; i < filterered1990List->getNumStudents(); i++) {
+		msg->putInt(curr->index);
+		msg->putString(curr->name);
+		msg->putString(curr->date);
+		msg->putInt(curr->id);
+		msg->putInt(curr->age);
+		curr = curr->next;
+	}
+	return msg;
+}
+
+Message* SocketB::handleABSortIDReq(){
+	Message* msg = new Message(PACKAGE_MAX_LEN);
+	listStudent->sortStudent();
+	StrStudentInfo* curr = listStudent->getFirst();
+	msg->putInt(B_A_SORT_ID_RES_SIG);
+	msg->putInt(listStudent->getNumStudents());
+	for(int i = 0; i < listStudent->getNumStudents(); i++) {
 		msg->putInt(curr->index);
 		msg->putString(curr->name);
 		msg->putString(curr->date);
