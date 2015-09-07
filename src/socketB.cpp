@@ -53,7 +53,6 @@ int SocketB::start(int portno){
 		switch(msgID){
 			case A_B_STUDENT_INFO_REQ_SIG: {
 				msg1 = handleABStudentInfoReq(msg);
-				
 				break;
 			}
 		};
@@ -96,14 +95,15 @@ StrABStudentInfoReq* SocketB::ABStudentInfoReq(Message* msg){
 
         listStudent -> addStudent(student);
     }
-    // listStudent->printStudent();
+    listStudent->printStudent();
+    cout << endl;
     return NULL;
 }
 
 Message* SocketB::handleABStudentInfoReq(Message* msg){
 	ABStudentInfoReq(msg);
 	Message* msg1 = new Message(4);
-	msg1->putInt(0);
+	msg1->putInt(B_A_STUDENT_INFO_RES_SIG);
 	return msg1;
 }
 
