@@ -24,11 +24,13 @@ public:
 	void stop();
 	void error(const char *msg);
 	Message* ABStudentInfoReq(StrABStudentInfoReq data);
-	// Message* ABShowAllReq(StrABStudentInfoReq data);
-	// Message* ABBorn1990Req(StrABStudentInfoReq data);
+	Message* ABShowAllReq();
+	// Message* ABBorn1990Req();
 	// Message* ABSortIDReq(StrABStudentInfoReq data);
 	// Message* ABInsertNewReq(StrABStudentInfoReq data);
 	StrABStudentInfoReq getData();
+	Message* handleBAShowAllRes();
+
 	void initRecv(int portno);
 	void handleRespond();
 };

@@ -52,9 +52,20 @@ int SocketB::start(int portno){
 		Message* msg1 = NULL;
 		switch(msgID){
 			case A_B_STUDENT_INFO_REQ_SIG: {
+				cout << "A_B_STUDENT_INFO_REQ_SIG" << endl;
 				msg1 = handleABStudentInfoReq(msg);
 				break;
 			}
+			case A_B_SHOW_ALL_REQ_SIG: {
+				cout << "A_B_SHOW_ALL_REQ_SIG" << endl;
+				msg1 = handleABShowAllReq();
+				break;
+			}
+			// case A_B_BORN_1990_REQ_SIG: {
+			// 	cout << "A_B_BORN_1990_REQ_SIG" << endl;
+			// 	msg1 = handleABBorn1990Req();
+			// 	break;
+			// }
 		};
 
 		if(msg1){
@@ -95,8 +106,7 @@ StrABStudentInfoReq* SocketB::ABStudentInfoReq(Message* msg){
 
         listStudent -> addStudent(student);
     }
-    listStudent->printStudent();
-    cout << endl;
+    // listStudent->printStudent();
     return NULL;
 }
 
@@ -106,6 +116,30 @@ Message* SocketB::handleABStudentInfoReq(Message* msg){
 	msg1->putInt(B_A_STUDENT_INFO_RES_SIG);
 	return msg1;
 }
+
+// StrABShowAllReq* SocketB::ABShowAllReq(Message* msg){
+// 	return NULL;
+// }
+
+Message* SocketB::handleABShowAllReq(){
+	Message* msg = new Message(PACKAGE_MAX_LEN);
+	StrStudentInfo* curr = listStudent->getFirst();
+	msg->putInt(B_A_SHOW_ALL_RES_SIG);
+	msg->putInt(listStudent->getNumStudents());
+	for(int i = 0; i < listStudent->getNumStudents(); i++) {
+		msg->putInt(curr->index);
+		msg->putString(curr->name);
+		msg->putString(curr->date);
+		msg->putInt(curr->id);
+		msg->putInt(curr->age);
+		curr = curr->next;
+	}
+	return msg;
+}
+
+// Message* SocketB::handleABBorn1990Req(){
+	
+// }
 
 int main(int argc, char const *argv[]){
 	(new SocketB())->start(8080);

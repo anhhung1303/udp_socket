@@ -28,9 +28,28 @@ void ListStudent::addStudent(StrStudentInfo* student){
 }
 
 void ListStudent::sortStudent(){
-    // StrStudentInfo* pre = first;
-    // StrStudentInfo* curr = pre->next;
-    // StrStudentInfo* pos = curr -> next;
+    StrStudentInfo* start = first;
+    StrStudentInfo* curr = NULL;
+    StrStudentInfo* end = NULL;
+    StrStudentInfo* temp = NULL;
+    for(int i = 0; i < numStudents; i++){
+        curr = end = first;
+        while(curr->next != NULL){
+            if(curr->id > curr->next->id){
+                temp = curr->next;
+                curr->next = curr->next->next;
+                temp->next = curr;
+                if (curr == first){
+                    first = end = temp;
+                }else {
+                    end->next = temp;
+                }
+                curr = temp;
+            }
+            end = curr;
+            curr = curr->next;
+        }
+    }
 }
 
 ListStudent* ListStudent::filterStudent(){
@@ -47,16 +66,11 @@ ListStudent* ListStudent::filterStudent(){
             filteredListStudent -> addStudent(curr);
         }
     }
-    cout << filteredListStudent->getNumStudents() << endl;
     return filteredListStudent;
 }
 
 void ListStudent::printStudent(){
     StrStudentInfo* curr = first;
-    // while(curr != NULL){
-    //     cout << curr->index << "\t" << curr->name << "\t" << curr->date << "\t" << curr->id << "\t" << curr->age << endl;
-    //     curr = curr -> next;
-    // }
     for(int i = 0; i < numStudents; i++) {
         cout << curr->index << "\t" << curr->name << "\t" << curr->date << "\t" << curr->id << "\t" << curr->age << endl;
         curr = curr->next;
@@ -64,7 +78,18 @@ void ListStudent::printStudent(){
 }
 
 void ListStudent::writeStudent(){
-    
+    StrStudentInfo* curr = first;
+    ofstream fout("fiter.txt");
+    fout << "TITLE:\t" << "INDEX\t" << "NAME\t\t\t\t" << "DATE\t\t" << "ID\t\t" << "AGE" << endl;
+    for(int i = 0; i < getNumStudents(); i++){
+        fout << "\t\t" << curr->index << "\t\t" << curr->name << "\t\t" << curr->date << "\t" << curr->id << "\t" << curr->age << endl;
+        curr = curr->next;
+    }
+    fout.close();
+}
+
+StrStudentInfo* ListStudent::getFirst(){
+    return first;
 }
 
 int ListStudent::getNumStudents() {
@@ -96,8 +121,13 @@ int ListStudent::getNumStudents() {
 //         student->age = age;
 //         listStudent -> addStudent(student);
 //     }
-//     // listStudent->printStudent();
-//     //cout << listStudent -> getNumStudents() << endl;
+//     cout << "Before sort" << endl;
+//     listStudent->printStudent();
+//     listStudent->writeStudent();
+//     listStudent->sortStudent();
+//     cout << "After sort" << endl;
+//     listStudent->printStudent();
+//     cout << "Filter 1990 student" << endl;
 //     ListStudent* filteredListStudent = listStudent -> filterStudent();
 //     filteredListStudent->printStudent();
 //     return 0;

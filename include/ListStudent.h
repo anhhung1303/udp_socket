@@ -16,6 +16,7 @@ public:
     void printStudent();
     void writeStudent();
     int getNumStudents();
+    StrStudentInfo* getFirst();
 };
 
 #endif
