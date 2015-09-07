@@ -9,6 +9,10 @@
 #include <sstream>
 using namespace std;
 
+// SocketA::SocketA(){
+// 	listStudent = new ListStudent();
+// }
+
 void SocketA::error(const char *msg){
     cout << msg<<"\n";
     exit(0);
@@ -48,7 +52,7 @@ int SocketA::start(string ipAdr, int portno){
 		cout << "5. Insert new student\n";
 		cout << "Enter your choice:\n";
 		cin >> inputReq;
-		inputReq = 1;
+		//inputReq = 1;
 		switch(inputReq){
 			case 1:	{
 				Message* msg = ABStudentInfoReq(getData());
@@ -56,12 +60,12 @@ int SocketA::start(string ipAdr, int portno){
 				if (n < 0) error("ERROR send");
 				break;
 			}
-			// case 2: {
-			// 	Message* msg = ABShowAllReq();
-			// 	n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-			// 	if (n < 0) error("Error send");
-			// 	break;
-			// }
+			case 2: {
+				Message* msg = ABShowAllReq();
+				n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+				if (n < 0) error("Error send");
+				break;
+			}
 			// case 3: {
 			// 	Message* msg = ABBorn1990Req();
 			// 	n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
@@ -103,6 +107,18 @@ Message* SocketA::ABStudentInfoReq(StrABStudentInfoReq data){
 	}
 	return msg;
 }
+
+Message* SocketA::ABShowAllReq(){
+	Message* msg = new Message(PACKAGE_MAX_LEN);
+	msg->putInt(A_B_SHOW_ALL_REQ_SIG);
+	return msg;
+}
+
+// Message* SocketA::ABBorn1990Req(){
+// 	Message* msg = new Message(PACKAGE_MAX_LEN);
+// 	msg->putInt(A_B_BORN_1990_REQ_SIG);
+// 	return msg;
+// }
 
 StrABStudentInfoReq SocketA::getData(){
 	StrABStudentInfoReq data;
@@ -161,6 +177,23 @@ void SocketA::handleRespond(){
 			cout << "| Hey A, I have recieved your message and processed it |" << endl;
 			cout << "========================================================" << endl;;
 			break;
+		}
+		case B_A_SHOW_ALL_RES_SIG: {
+			cout << "TITLE:\t" << "INDEX\t" << "NAME\t\t\t" << "DATE\t\t" << "ID\t" << "AGE" << endl;
+			int n = msg->getInt();
+			unsigned int index;
+		    string name;
+		    string date;
+		    unsigned int id;
+		    unsigned int age;
+		    for(int i = 0; i < n; i++){
+		    	index = msg->getInt();
+		    	name = msg->getString().c_str();
+		    	date = msg->getString().c_str();
+		    	id = msg->getInt();
+		    	age = msg->getInt();
+		    	cout << "\t" << index << "\t" << name << "\t\t" << date << "\t" << id << "\t" << age << endl;
+		    }
 		}
 	};
 }

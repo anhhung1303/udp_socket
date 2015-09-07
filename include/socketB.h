@@ -25,5 +25,7 @@ public:
 	void error(const char *msg);
 	StrABStudentInfoReq* ABStudentInfoReq(Message* data);
 	Message* handleABStudentInfoReq(Message* msg);
+	Message* handleABShowAllReq();
+	Message* handleABBorn1990Req();
 };
 #endif // _socketB_h_
