@@ -148,12 +148,18 @@ StrABStudentInfoReq SocketA::getData(){
 void SocketA::handleRespond(){
 	char buffer[PACKAGE_MAX_LEN];
 	n = recv(sockfd, buffer, PACKAGE_MAX_LEN-1, 0);
-	if (n < 0) error("ERROR reading from socket");
+	if (n < 0) {
+		error("ERROR reading from socket");
+		exit(1);
+	}
 	Message* msg = new Message(buffer, n);
 	int msgID = msg->getInt();
+	cout << "msgID: " << msgID << endl ;
 	switch(msgID){
 		case B_A_STUDENT_INFO_RES_SIG: {
-			cout << "send success\n";
+			cout << "========================================================" << endl;
+			cout << "| Hey A, I have recieved your message and processed it |" << endl;
+			cout << "========================================================" << endl;;
 			break;
 		}
 	};
