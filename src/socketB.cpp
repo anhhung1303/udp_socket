@@ -148,16 +148,11 @@ Message* SocketB::handleABSortIDReq(){
 }
 
 Message* SocketB::handleABInsertNewReq(Message* msg){
-    unsigned int index;
-    string name;
-    string date;
-    unsigned int id;
-    unsigned int age;
-    index = msg->getInt();
-    name = msg->getString();
-    date = msg->getString();
-    id = msg->getInt();
-    age = msg->getInt();
+    unsigned int index = msg->getInt();
+    string name = msg->getString();
+    string date = msg->getString();
+    unsigned int id = msg->getInt();
+    unsigned int age = msg->getInt();
 
     StrStudentInfo* student = new StrStudentInfo();
     student->index = index;
