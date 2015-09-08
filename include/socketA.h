@@ -13,25 +13,26 @@
 using namespace std;
 class SocketA{
 private:
-	int sockfd, sock_recv, portno, n;
-	struct sockaddr_in serv_addr;
-	struct hostent *server;
+    int sockfd, sock_recv, portno, n;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
 
 public:
-	SocketA(){};
-	~SocketA(){};
-	int start(string ipAdr, int portno);
-	void stop();
-	void error(const char *msg);
-	Message* ABStudentInfoReq(StrABStudentInfoReq data);
-	Message* ABShowAllReq();
-	Message* ABBorn1990Req();
-	Message* ABSortIDReq();
-	// Message* ABInsertNewReq(StrABStudentInfoReq data);
-	StrABStudentInfoReq getData();
-	Message* handleBAShowAllRes();
+    SocketA(){};
+    ~SocketA(){};
+    int start(string ipAdr, int portno);
+    void stop();
+    void error(const char *msg);
+    Message* ABStudentInfoReq(StrABStudentInfoReq data);
+    Message* ABShowAllReq();
+    Message* ABBorn1990Req();
+    Message* ABSortIDReq();
+    // Message* ABInsertNewReq(StrABStudentInfoReq data);
+    StrABStudentInfoReq getData();
+    Message* handleBAShowAllRes();
 
-	void initRecv(int portno);
-	void handleRespond();
+    void initRecv(int portno);
+    void handleRespond();
+    void printToScreen(Message* msg);
 };
 #endif // _socketA_h_

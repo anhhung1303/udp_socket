@@ -6,6 +6,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <cstring>
+#include <algorithm>
 
 using namespace std;
 
@@ -15,7 +17,12 @@ ListStudent::ListStudent(){
 }
 
 ListStudent::~ListStudent(){
-    delete first, last, numStudents;
+    StrStudentInfo* temp = first;
+    while (first != NULL){
+        temp = first->next;
+        delete first;
+        first = temp;
+    }
 }
 
 void ListStudent::addStudent(StrStudentInfo* student){
@@ -27,65 +34,65 @@ void ListStudent::addStudent(StrStudentInfo* student){
     }
 }
 
+void ListStudent::swapStudent(StrStudentInfo* first, StrStudentInfo* second){
+    swap(first->index, second->index);
+    swap(first->name, second->name);
+    swap(first->date, second->date);
+    swap(first->id, second->id);
+    swap(first->age, second->age);
+}
+
 void ListStudent::sortStudent(){
-    StrStudentInfo* start = first;
-    StrStudentInfo* curr = NULL;
-    StrStudentInfo* end = NULL;
-    StrStudentInfo* temp = NULL;
-    for(int i = 0; i < numStudents; i++){
-        curr = end = first;
-        while(curr->next != NULL){
-            if(curr->id > curr->next->id){
-                temp = curr->next;
-                curr->next = curr->next->next;
-                temp->next = curr;
-                if (curr == first){
-                    first = end = temp;
-                }else {
-                    end->next = temp;
-                }
-                curr = temp;
+    StrStudentInfo* curr = first;
+    StrStudentInfo* lcurr = NULL;
+    bool swapped = false;
+    if(curr == NULL){
+        return;
+    }
+    do {
+        swapped = false;
+        curr = first;
+        while(curr->next != lcurr){
+            if (curr->id > curr->next->id){
+                swapStudent(curr, curr->next);
+                swapped = true;
             }
-            end = curr;
             curr = curr->next;
         }
-    }
+        lcurr = curr;
+    }while(swapped);
 }
 
 ListStudent* ListStudent::filterStudent(){
     ListStudent* filteredListStudent = new ListStudent();
-    filteredListStudent->printStudent();
     StrStudentInfo* curr = first;
     int count = 0;
     char year[4];
-    for(curr = first; curr != NULL; curr = curr->next){
-        for(int i = 6; i <= 9; i++){
-            year[i-6] = curr->date[i];
+    for(int i = 0; i < numStudents; i++){
+        for(int j = 6; j <= 9; j++){
+            year[j-6] = curr->date[j];
         }
         if (atoi(year) == 1990){
-            filteredListStudent -> addStudent(curr);
+            StrStudentInfo* temp = new StrStudentInfo();
+            temp->index = curr->index;
+            strcpy(temp->name, curr->name);
+            strcpy(temp->date, curr->date);
+            temp->id = curr->id;
+            temp->age = curr->age;
+            temp->next = NULL;
+            filteredListStudent -> addStudent(temp);
         }
+        curr = curr->next;
     }
     return filteredListStudent;
 }
 
 void ListStudent::printStudent(){
     StrStudentInfo* curr = first;
-    for(int i = 0; i < numStudents; i++) {
+    while(curr != NULL) {
         cout << curr->index << "\t" << curr->name << "\t" << curr->date << "\t" << curr->id << "\t" << curr->age << endl;
         curr = curr->next;
     }
-}
-
-void ListStudent::writeStudent(){
-    StrStudentInfo* curr = first;
-    ofstream fout("fiter.txt");
-    fout << "TITLE:\t" << "INDEX\t" << "NAME\t\t\t\t" << "DATE\t\t" << "ID\t\t" << "AGE" << endl;
-    for(int i = 0; i < getNumStudents(); i++){
-        fout << "\t\t" << curr->index << "\t\t" << curr->name << "\t\t" << curr->date << "\t" << curr->id << "\t" << curr->age << endl;
-        curr = curr->next;
-    }
-    fout.close();
 }
 
 StrStudentInfo* ListStudent::getFirst(){
@@ -121,14 +128,14 @@ int ListStudent::getNumStudents() {
 //         student->age = age;
 //         listStudent -> addStudent(student);
 //     }
-//     cout << "Before sort" << endl;
-//     listStudent->printStudent();
-//     listStudent->writeStudent();
 //     listStudent->sortStudent();
-//     cout << "After sort" << endl;
+//     int count = 0;
+//     StrStudentInfo* curr = listStudent->getFirst();
+//     while(curr) {
+//         count++;
+//         curr = curr->next;
+//     }
 //     listStudent->printStudent();
-//     cout << "Filter 1990 student" << endl;
-//     ListStudent* filteredListStudent = listStudent -> filterStudent();
-//     filteredListStudent->printStudent();
+//     cout << "Count: " << count << endl;
 //     return 0;
 // }
