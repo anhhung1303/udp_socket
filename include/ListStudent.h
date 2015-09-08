@@ -17,6 +17,7 @@ public:
     void writeStudent();
     int getNumStudents();
     StrStudentInfo* getFirst();
+    void swapStudent(StrStudentInfo* first, StrStudentInfo* second);
 };
 
 #endif
