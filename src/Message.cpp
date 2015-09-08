@@ -1,13 +1,13 @@
 #include "../include/Message.h"
 #include <cstring>
+
 using namespace std;
 
 Message::Message(){
-    //    capacity = 1000;
     pos = 0;
-    //    buf = new char[capacity];
     buf = NULL;
 }
+
 Message::Message(int capacity){
     pos = 0;
     this->capacity = capacity;

@@ -26,11 +26,11 @@ void SocketA::initRecv(int portno){
 int SocketA::start(string ipAdr, int portno){
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0)
-    error("ERROR opening socket");
+        error("ERROR opening socket");
     server = gethostbyname(ipAdr.c_str());
     if (server == NULL) {
-    cout << stderr,"ERROR, no such host\n";
-    exit(0);
+        cout << stderr,"ERROR, no such host\n";
+        exit(0);
     }
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = inet_addr(ipAdr.c_str());
@@ -72,12 +72,13 @@ int SocketA::start(string ipAdr, int portno){
                 if (n < 0) error("Error send");
                 break;
             }
-            // case 5: {
-            //     Message* msg = ABInsertNewReq();
-            //     n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-            //     if (n < 0) error("Error send");
-            //     break;
-            // }
+            case 5: {
+                Message* msg = ABInsertNewReq(getInsertStudentData());
+                n = sendto(sockfd, msg->buf, msg->getPosition(), 0, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+                if (n < 0) error("Error send");
+                break;
+            }
+            default: continue;
         };
         handleRespond();
     }
@@ -120,6 +121,39 @@ Message* SocketA::ABSortIDReq(){
     return msg;
 }
 
+Message* SocketA::ABInsertNewReq(StrABInsertNewReq data){
+    Message* msg = new Message(PACKAGE_MAX_LEN);
+    msg->putInt(data.msgId);
+    msg->putInt(data.studentInfo.index);
+    msg->putString(data.studentInfo.name);
+    msg->putString(data.studentInfo.date);
+    msg->putInt(data.studentInfo.id);
+    msg->putInt(data.studentInfo.age);
+    return msg;
+}
+
+StrABInsertNewReq SocketA::getInsertStudentData(){
+    StrABInsertNewReq data;
+    data.msgId = A_B_INSERT_NEW_REQ_SIG;
+    unsigned int index;
+    string name;
+    string date;
+    unsigned int id;
+    unsigned int age;
+
+    cout << "Please input student info as same format of input file" << endl;
+    cin >> index >> name >> date >> id >> age;
+
+    data.studentInfo.index = index;
+    copy(name.begin(), name.end(), data.studentInfo.name);
+    data.studentInfo.name[name.size()] = '\0';
+    copy(date.begin(), date.end(), data.studentInfo.date);
+    data.studentInfo.date[date.size()] = '\0';
+    data.studentInfo.id = id;
+    data.studentInfo.age = age;
+    return data;
+}
+
 StrABStudentInfoReq SocketA::getData(){
     StrABStudentInfoReq data;
     data.msgId = A_B_STUDENT_INFO_REQ_SIG;
@@ -145,7 +179,7 @@ StrABStudentInfoReq SocketA::getData(){
         data.studentInfo[count].date[date.size()] = '\0';
         data.studentInfo[count].id = id;
         data.studentInfo[count].age = age;
-        count++;        
+        count++;
     }
     data.numStudents = count;
     input.close();
@@ -165,7 +199,7 @@ void SocketA::handleRespond(){
     switch(msgID){
         case B_A_STUDENT_INFO_RES_SIG: {
             cout << "========================================================" << endl;
-            cout << "| Hey A, I have recieved your message and processed it |" << endl;
+            cout << "| Hey A, I have recieved your message and processed int |" << endl;
             cout << "========================================================" << endl;;
             break;
         }
@@ -196,6 +230,9 @@ void SocketA::handleRespond(){
         case B_A_SORT_ID_RES_SIG: {
             printToScreen(msg);
             break;
+        }
+        case B_A_INSERT_NEW_RES_SIG: {
+            printToScreen(msg);
         }
     };
 }
