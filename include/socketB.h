@@ -13,20 +13,21 @@
 
 class SocketB{
 public:
-	int sockfd, sock_rep;
-	char buffer[PACKAGE_MAX_LEN];
-	struct sockaddr_in serv_addr, cli_addr;
-	int sizeAddr;
-	ListStudent* listStudent;
+    int sockfd, sock_rep;
+    char buffer[PACKAGE_MAX_LEN];
+    struct sockaddr_in serv_addr, cli_addr;
+    int sizeAddr;
+    ListStudent* listStudent;
 
-	SocketB();
-	~SocketB(){};
+    SocketB();
+    ~SocketB(){};
     int start(int portno);
-	void error(const char *msg);
-	StrABStudentInfoReq* ABStudentInfoReq(Message* data);
-	Message* handleABStudentInfoReq(Message* msg);
-	Message* handleABShowAllReq();
-	Message* handleABBorn1990Req();
-	Message* handleABSortIDReq();
+    void error(const char *msg);
+    StrABStudentInfoReq* ABStudentInfoReq(Message* data);
+    Message* handleABStudentInfoReq(Message* msg);
+    Message* handleABShowAllReq();
+    Message* handleABBorn1990Req();
+    Message* handleABSortIDReq();
+    void putDataToMessage(Message* msg, ListStudent* list, int numStudents);
 };
 #endif // _socketB_h_
