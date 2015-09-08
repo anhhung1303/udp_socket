@@ -1,10 +1,10 @@
 # udp_socket
-Test udp
 
-Compile by cd to scr and `make`
+Compile by cd to src and run `make`
 
-Open two termials.
-- First one: `./socketA` - act as Client
-- Second one: `./socketB` - act as Server
+Open two terminals:
 
-Remote temporary file by `make clean`
+- First one: run `./socketA` - act as Client
+- Second one: run `./socketB` - act as Server
+
+Remove temporary files by `make clean` command
