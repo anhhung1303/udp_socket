@@ -225,6 +225,7 @@ void SocketA::handleRespond(){
                 cout << "\t" << index << "\t" << name << "\t\t" << date << "\t" << id << "\t" << age << endl;
                 fout << "\t\t" << index << "\t\t" << name << "\t\t" << date << "\t" << id << "\t" << age << endl;
             }
+            fout.close();
             break;
         }
         case B_A_SORT_ID_RES_SIG: {
