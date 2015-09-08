@@ -26,8 +26,7 @@ int SocketB::start(int portno){
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
-    if (bind(sockfd, (struct sockaddr *) &serv_addr,
-        sizeof(serv_addr)) < 0)
+    if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
         error("ERROR on binding");
     while(true){
         struct sockaddr_storage recv_sa;
@@ -68,6 +67,11 @@ int SocketB::start(int portno){
             case A_B_SORT_ID_REQ_SIG: {
                 cout << "A_B_SORT_ID_REQ_SIG" << endl;
                 msg1 = handleABSortIDReq();
+                break;
+            }
+            case A_B_INSERT_NEW_REQ_SIG: {
+                cout << "A_B_INSERT_NEW_REQ_SIG" << endl;
+                msg1 = handleABInsertNewReq(msg);
                 break;
             }
         };
@@ -141,6 +145,36 @@ Message* SocketB::handleABSortIDReq(){
     msg->putInt(listStudent->getNumStudents());
     putDataToMessage(msg, listStudent, listStudent->getNumStudents());
     return msg;
+}
+
+Message* SocketB::handleABInsertNewReq(Message* msg){
+    unsigned int index;
+    string name;
+    string date;
+    unsigned int id;
+    unsigned int age;
+    index = msg->getInt();
+    name = msg->getString();
+    date = msg->getString();
+    id = msg->getInt();
+    age = msg->getInt();
+
+    StrStudentInfo* student = new StrStudentInfo();
+    student->index = index;
+    copy(name.begin(), name.end(), student->name);
+    student->name[name.size()] = '\0';
+    copy(date.begin(), date.end(), student->date);
+    student->date[date.size()] = '\0';
+    student->id = id;
+    student->age = age;
+    student->next = NULL;
+    listStudent->addStudent(student);
+
+    Message* msg1 = new Message(PACKAGE_MAX_LEN);
+    msg1->putInt(B_A_INSERT_NEW_RES_SIG);
+    msg1->putInt(listStudent->getNumStudents());
+    putDataToMessage(msg1, listStudent, listStudent->getNumStudents());
+    return msg1;
 }
 
 void SocketB::putDataToMessage(Message* msg, ListStudent* list, int n){

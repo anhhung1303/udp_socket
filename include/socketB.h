@@ -28,6 +28,7 @@ public:
     Message* handleABShowAllReq();
     Message* handleABBorn1990Req();
     Message* handleABSortIDReq();
+    Message* handleABInsertNewReq(Message* msg);
     void putDataToMessage(Message* msg, ListStudent* list, int numStudents);
 };
 #endif // _socketB_h_
